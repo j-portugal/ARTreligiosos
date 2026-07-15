@@ -52,6 +52,7 @@ const productos = [
 
 // 1. Obtener el contenedor HTML donde irán las tarjetas
 const contenedorProductos = document.getElementById("grid-productos");
+const buscador = document.getElementById("buscador");
 
 // 2. Función para renderizar (dibujar) las tarjetas
 function renderizarTarjetas(listaDeProductos) {
@@ -93,6 +94,23 @@ function renderizarTarjetas(listaDeProductos) {
 
 // 6. Ejecutar la función inmediatamente al cargar la página usando nuestro array principal
 renderizarTarjetas(productos);
+
+if (buscador) {
+    buscador.addEventListener("input", (event) => {
+        const textoBusqueda = event.target.value.trim().toLowerCase();
+
+        const productosFiltrados = productos.filter((producto) => {
+            const coincideNombre = producto.nombre.toLowerCase().includes(textoBusqueda);
+            const coincideMaterial = producto.material.some((material) =>
+                material.toLowerCase().includes(textoBusqueda)
+            );
+
+            return coincideNombre || coincideMaterial;
+        });
+
+        renderizarTarjetas(productosFiltrados);
+    });
+}
 
 // Comprobación para ver si el archivo cargó correctamente
 console.log("¡Las tarjetas se han generado dinámicamente!");
