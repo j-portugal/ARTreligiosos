@@ -153,11 +153,19 @@
         }
 
         /* --- SECCIÓN PRODUCTOS: Grid Layout --- */
-        .products-grid {
+        .productos-grid {
             display: grid;
             /* Cuadrícula responsiva que se adapta automáticamente al ancho del dispositivo */
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 30px;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+            align-items: stretch;
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+            align-items: stretch;
         }
 
         /* --- COMPONENTE TARJETA (CARD) DE PRODUCTO --- */
@@ -169,6 +177,8 @@
             transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
             display: flex;
             flex-direction: column;
+            width: 100%;
+            min-width: 0;
             box-shadow: 0 8px 22px rgba(0, 0, 0, 0.08);
         }
 
@@ -181,7 +191,7 @@
         /* Imagen de marcador de posición (Placeholder) */
         .product-image-container {
             width: 100%;
-            height: 220px;
+            height: 180px;
             background-color: var(--primary-light);
             display: flex;
             align-items: center;
@@ -189,6 +199,13 @@
             color: var(--primary-color);
             position: relative;
             overflow: hidden;
+        }
+
+        .product-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
         }
 
         .product-image-placeholder {
@@ -229,6 +246,48 @@
             gap: 6px;
             padding-top: 10px;
             border-top: 1px solid #f0f0f0; /* División visual */
+        }
+
+        .product-footer {
+            margin-top: auto;
+            padding-top: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            border-top: 1px solid #f0f0f0;
+        }
+
+        .product-price {
+            font-size: 17px;
+            font-weight: 700;
+            color: var(--primary-color);
+            white-space: nowrap;
+        }
+
+        .btn-agregar {
+            appearance: none;
+            border: none;
+            background-color: var(--primary-color);
+            color: #ffffff;
+            font-size: 13px;
+            font-weight: 600;
+            padding: 10px 14px;
+            border-radius: 999px;
+            cursor: pointer;
+            transition: transform 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
+            box-shadow: var(--shadow-sm);
+            white-space: nowrap;
+        }
+
+        .btn-agregar:hover {
+            background-color: #74481f;
+            transform: translateY(-1px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .btn-agregar:active {
+            transform: translateY(0);
         }
 
         .tag {
@@ -382,118 +441,18 @@
     <!-- MAIN: Contenedor principal de la página -->
     <!-- ========================================== -->
     <main>
-        
-        <!-- Sección 'Productos' con distribución de cuadrícula -->
         <section id="productos">
             <h2 class="section-title">Nuestros Artículos</h2>
-            
-            <!-- Contenedor Grid para la cuadrícula de productos -->
-            <div class="products-grid">
-                
-                <!-- 
-                  COMPONENTE BASE: Tarjeta (Card) de Producto 
-                  Diseño modular que presenta imagen de marcador de posición y área de texto dividida.
-                -->
-                <article class="product-card">
-                    <!-- Contenedor de la Imagen Placeholder -->
-                    <div class="product-image-container">
-                        <!-- SVG Inline como marcador de posición elegante -->
-                        <svg class="product-image-placeholder" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M19 3H5C3.9 3 3 3.9 3 5V19C3 20.1 3.9 21 5 21H19C20.1 21 21 20.1 21 19V5C21 3.9 20.1 3 19 3ZM19 19H5V5H19V19ZM11.4 14.6L13.8 17.5L17.2 13L21.7 19H7.2L11.4 14.6Z" fill="currentColor"/>
-                        </svg>
-                    </div>
-
-                    <!-- Área de texto dividida para datos dinámicos -->
-                    <div class="product-info">
-                        <!-- Nombre del producto -->
-                        <h3 class="product-name">Escultura de San Francisco de Asís</h3>
-                        
-                        <!-- Descripción corta -->
-                        <p class="product-description">Fina pieza artesanal tallada con exquisito detalle en madera seleccionada, ideal para interiores y altares personales.</p>
-                        
-                        <!-- Tags / Materiales -->
-                        <div class="product-tags">
-                            <span class="tag">Madera</span>
-                            <span class="tag">Artesanal</span>
-                            <span class="tag">Clásico</span>
-                        </div>
-                    </div>
-                </article>
-                <!-- Fin del Componente Base Tarjeta -->
-
-                <!-- Se agregan un par de tarjetas duplicadas con el mismo componente base para ilustrar visualmente la cuadrícula (Grid) -->
-                <article class="product-card">
-                    <div class="product-image-container">
-                        <svg class="product-image-placeholder" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M19 3H5C3.9 3 3 3.9 3 5V19C3 20.1 3.9 21 5 21H19C20.1 21 21 20.1 21 19V5C21 3.9 20.1 3 19 3ZM19 19H5V5H19V19ZM11.4 14.6L13.8 17.5L17.2 13L21.7 19H7.2L11.4 14.6Z" fill="currentColor"/>
-                        </svg>
-                    </div>
-                    <div class="product-info">
-                        <h3 class="product-name">Cruz Relicario de Plata</h3>
-                        <p class="product-description">Cruz finamente trabajada en plata de ley 925 con detalles ornamentales de estilo bizantino y engastes hechos a mano.</p>
-                        <div class="product-tags">
-                            <span class="tag">Plata</span>
-                            <span class="tag">Relicario</span>
-                            <span class="tag">Joyas</span>
-                        </div>
-                    </div>
-                </article>
-
-                <article class="product-card">
-                    <div class="product-image-container">
-                        <svg class="product-image-placeholder" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M19 3H5C3.9 3 3 3.9 3 5V19C3 20.1 3.9 21 5 21H19C20.1 21 21 20.1 21 19V5C21 3.9 20.1 3 19 3ZM19 19H5V5H19V19ZM11.4 14.6L13.8 17.5L17.2 13L21.7 19H7.2L11.4 14.6Z" fill="currentColor"/>
-                        </svg>
-                    </div>
-                    <div class="product-info">
-                        <h3 class="product-name">Rosario de Olivo de Jerusalén</h3>
-                        <p class="product-description">Rosario tradicional confeccionado con cuentas de madera de olivo natural importadas y engarzadas con cordón ultra resistente.</p>
-                        <div class="product-tags">
-                            <span class="tag">Olivo</span>
-                            <span class="tag">Rosario</span>
-                            <span class="tag">Jerusalén</span>
-                        </div>
-                    </div>
-                </article>
-
+            <!-- Este es el contenedor vacío donde JavaScript inyectará las tarjetas -->
+            <div id="grid-productos" class="productos-grid">
+                <!-- Las tarjetas se generarán aquí automáticamente -->
             </div>
         </section>
-
     </main>
 
-    <!-- ========================================== -->
-    <!-- FOOTER: Información institucional y enlaces -->
-    <!-- ========================================== -->
     <footer>
-        <div class="footer-container">
-            
-            <!-- Información general y misión -->
-            <div class="footer-info">
-                <h3>ARTreligioso</h3>
-                <p>Dedicados a preservar y difundir el arte sacro y los artículos religiosos de la más alta calidad, uniendo tradición y fe en cada una de nuestras piezas exclusivas.</p>
-            </div>
-
-            <!-- Columnas de enlaces útiles -->
-            <div class="footer-links">
-                <div class="footer-column">
-                    <h4>Nuestra Tienda</h4>
-                    <a href="#nosotros">Quiénes Somos</a>
-                    <a href="#artesanos">Artesanos</a>
-                    <a href="#blog">Blog de Arte</a>
-                </div>
-                <div class="footer-column">
-                    <h4>Soporte</h4>
-                    <a href="#contacto">Contacto</a>
-                    <a href="#envios">Envíos y Devoluciones</a>
-                    <a href="#preguntas">Preguntas Frecuentes</a>
-                </div>
-            </div>
-
-        </div>
-
-        <!-- Derechos reservados y créditos -->
         <div class="footer-bottom">
-            <p>&copy; 2026 ARTreligioso. Todos los derechos reservados. Diseñado para amantes del arte sacro.</p>
+            <p>&copy; 2026 ARTreligioso. Todos los derechos reservados.</p>
         </div>
     </footer>
     <script src="productos.js"></script>
