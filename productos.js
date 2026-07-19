@@ -114,3 +114,91 @@ if (buscador) {
 
 // Comprobación para ver si el archivo cargó correctamente
 console.log("¡Las tarjetas se han generado dinámicamente!");
+
+// -------------------------
+// Lógica del carrito
+// -------------------------
+
+let carrito = [];
+
+const btnAbrirCarrito = document.getElementById('btn-abrir-carrito');
+const carritoOverlay = document.getElementById('carrito-overlay');
+const carritoPanel = document.getElementById('carrito-panel');
+const btnCerrarCarrito = document.getElementById('btn-cerrar-carrito');
+const contadorCarrito = document.getElementById('contador-carrito');
+const carritoBody = document.getElementById('carrito-body');
+const carritoPrecioTotal = document.getElementById('carrito-precio-total');
+
+const formateadorCLP = new Intl.NumberFormat('es-CL', { style: 'currency', currency: 'CLP' });
+
+function abrirCarrito(e) {
+    if (e) e.preventDefault();
+    if (carritoPanel) carritoPanel.classList.add('abierto');
+    if (carritoOverlay) carritoOverlay.classList.add('activo');
+    if (carritoPanel) carritoPanel.setAttribute('aria-hidden', 'false');
+}
+
+function cerrarCarrito() {
+    if (carritoPanel) carritoPanel.classList.remove('abierto');
+    if (carritoOverlay) carritoOverlay.classList.remove('activo');
+    if (carritoPanel) carritoPanel.setAttribute('aria-hidden', 'true');
+}
+
+if (btnAbrirCarrito) btnAbrirCarrito.addEventListener('click', abrirCarrito);
+if (btnCerrarCarrito) btnCerrarCarrito.addEventListener('click', cerrarCarrito);
+if (carritoOverlay) carritoOverlay.addEventListener('click', cerrarCarrito);
+
+// Delegación: escuchar clicks en los botones "Añadir al carrito"
+if (contenedorProductos) {
+    contenedorProductos.addEventListener('click', (event) => {
+        const btn = event.target.closest('.btn-agregar');
+        if (!btn) return;
+
+        const id = Number(btn.getAttribute('data-id'));
+        const producto = productos.find(p => p.id === id);
+        if (!producto) return;
+
+        const existente = carrito.find(item => item.id === id);
+        if (existente) {
+            existente.cantidad = (existente.cantidad || 0) + 1;
+        } else {
+            carrito.push({ id: producto.id, nombre: producto.nombre, precio: producto.precio, cantidad: 1 });
+        }
+
+        actualizarCarrito();
+        abrirCarrito();
+    });
+}
+
+function actualizarCarrito() {
+    const totalUnidades = carrito.reduce((sum, it) => sum + (it.cantidad || 0), 0);
+    const totalPrecio = carrito.reduce((sum, it) => sum + (it.precio * (it.cantidad || 0)), 0);
+
+    if (contadorCarrito) contadorCarrito.textContent = totalUnidades;
+
+    if (!carritoBody) return;
+
+    if (carrito.length === 0) {
+        carritoBody.innerHTML = 'Tu carrito está vacío';
+    } else {
+        const itemsHTML = carrito.map(item => {
+            const subtotal = item.precio * item.cantidad;
+            return `
+                <div class="carrito-item" data-id="${item.id}" style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid #f0f0f0;">
+                    <div>
+                        <div style="font-weight:600;color:var(--text-color);">${item.nombre}</div>
+                        <div style="font-size:13px;color:var(--text-muted);">Cantidad: ${item.cantidad}</div>
+                    </div>
+                    <div style="font-weight:700;color:var(--primary-color);">${formateadorCLP.format(subtotal)}</div>
+                </div>
+            `;
+        }).join('');
+
+        carritoBody.innerHTML = itemsHTML;
+    }
+
+    if (carritoPrecioTotal) carritoPrecioTotal.textContent = formateadorCLP.format(totalPrecio);
+}
+
+// Inicializar estado del carrito en la UI
+actualizarCarrito();
