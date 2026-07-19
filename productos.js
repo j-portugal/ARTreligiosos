@@ -189,7 +189,10 @@ function actualizarCarrito() {
                         <div style="font-weight:600;color:var(--text-color);">${item.nombre}</div>
                         <div style="font-size:13px;color:var(--text-muted);">Cantidad: ${item.cantidad}</div>
                     </div>
-                    <div style="font-weight:700;color:var(--primary-color);">${formateadorCLP.format(subtotal)}</div>
+                    <div style="display:flex;flex-direction:column;align-items:flex-end;gap:6px;">
+                        <div style="font-weight:700;color:var(--primary-color);">${formateadorCLP.format(subtotal)}</div>
+                        <button class='btn-eliminar' data-id='${item.id}' style='background:none;border:none;color:#c53030;font-size:12px;cursor:pointer;padding:4px 6px;'>Quitar</button>
+                    </div>
                 </div>
             `;
         }).join('');
@@ -202,3 +205,15 @@ function actualizarCarrito() {
 
 // Inicializar estado del carrito en la UI
 actualizarCarrito();
+
+// Delegación en el cuerpo del carrito para manejar "Quitar"
+if (carritoBody) {
+    carritoBody.addEventListener('click', (event) => {
+        const btn = event.target.closest('.btn-eliminar');
+        if (!btn) return;
+
+        const id = Number(btn.getAttribute('data-id'));
+        carrito = carrito.filter(item => item.id !== id);
+        actualizarCarrito();
+    });
+}
