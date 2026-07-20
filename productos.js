@@ -119,7 +119,7 @@ console.log("¡Las tarjetas se han generado dinámicamente!");
 // Lógica del carrito
 // -------------------------
 
-let carrito = [];
+let carrito = JSON.parse(localStorage.getItem('carritoART')) || [];
 
 const btnAbrirCarrito = document.getElementById('btn-abrir-carrito');
 const carritoOverlay = document.getElementById('carrito-overlay');
@@ -201,10 +201,9 @@ function actualizarCarrito() {
     }
 
     if (carritoPrecioTotal) carritoPrecioTotal.textContent = formateadorCLP.format(totalPrecio);
-}
 
-// Inicializar estado del carrito en la UI
-actualizarCarrito();
+    localStorage.setItem('carritoART', JSON.stringify(carrito));
+}
 
 // Delegación en el cuerpo del carrito para manejar "Quitar"
 if (carritoBody) {
@@ -217,3 +216,6 @@ if (carritoBody) {
         actualizarCarrito();
     });
 }
+
+// Dibujar el carrito recuperado al cargar la página, cuando ya existen los nodos del DOM
+actualizarCarrito();
