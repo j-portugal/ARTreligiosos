@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ARTreligioso - Checkout</title>
+    <style>
+        :root {
+            --bg: #f4efe8;
+            --panel: #ffffff;
+            --ink: #2f261d;
+            --muted: #6d6257;
+            --border: #e6ddd3;
+            --accent: #8b5a2b;
+            --accent-soft: #f1e6d9;
+            --success: #2f8f4e;
+            --success-dark: #257441;
+            --disabled: #cfc7bf;
+            --shadow: 0 18px 50px rgba(68, 45, 24, 0.12);
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+            color: var(--ink);
+            background:
+                radial-gradient(circle at top left, rgba(139, 90, 43, 0.14), transparent 30%),
+                radial-gradient(circle at bottom right, rgba(47, 143, 78, 0.08), transparent 28%),
+                var(--bg);
+            min-height: 100vh;
+        }
+
+        .page-shell {
+            max-width: 1180px;
+            margin: 0 auto;
+            padding: 40px 20px 56px;
+        }
+
+        .hero {
+            margin-bottom: 24px;
+        }
+
+        .eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 14px;
+            border-radius: 999px;
+            background: rgba(139, 90, 43, 0.08);
+            color: var(--accent);
+            font-size: 13px;
+            font-weight: 700;
+            letter-spacing: 0.03em;
+            text-transform: uppercase;
+        }
+
+        h1 {
+            margin: 16px 0 10px;
+            font-size: clamp(2rem, 4vw, 3.25rem);
+            line-height: 1.05;
+        }
+
+        .subtitle {
+            margin: 0;
+            max-width: 680px;
+            color: var(--muted);
+            font-size: 1rem;
+            line-height: 1.6;
+        }
+
+        .checkout-grid {
+            display: grid;
+            grid-template-columns: minmax(0, 1.45fr) minmax(320px, 0.9fr);
+            gap: 22px;
+            align-items: start;
+        }
+
+        .panel {
+            background: rgba(255, 255, 255, 0.92);
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            box-shadow: var(--shadow);
+            backdrop-filter: blur(10px);
+        }
+
+        .form-panel {
+            padding: 28px;
+        }
+
+        .summary-panel {
+            padding: 28px;
+            position: sticky;
+            top: 24px;
+        }
+
+        .section-title {
+            margin: 0 0 18px;
+            font-size: 1.15rem;
+        }
+
+        .field-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 16px;
+        }
+
+        .field {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .field.full {
+            grid-column: 1 / -1;
+        }
+
+        label {
+            font-size: 0.95rem;
+            font-weight: 600;
+        }
+
+        input {
+            width: 100%;
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 14px 16px;
+            font-size: 1rem;
+            color: var(--ink);
+            background: #fff;
+            outline: none;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+        }
+
+        input::placeholder {
+            color: #a79b8f;
+        }
+
+        input:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 4px rgba(139, 90, 43, 0.12);
+        }
+
+        .helper {
+            margin: 18px 0 0;
+            color: var(--muted);
+            font-size: 0.92rem;
+            line-height: 1.5;
+        }
+
+        .summary-card {
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            background: linear-gradient(180deg, #fff, #fffaf5);
+            padding: 18px;
+        }
+
+        .summary-line {
+            display: flex;
+            justify-content: space-between;
+            gap: 16px;
+            padding: 10px 0;
+            color: var(--ink);
+            border-bottom: 1px dashed #eadfd2;
+        }
+
+        .summary-line:last-child {
+            border-bottom: 0;
+        }
+
+        .summary-line strong {
+            font-size: 1rem;
+        }
+
+        .summary-total {
+            margin-top: 16px;
+            padding-top: 16px;
+            display: flex;
+            justify-content: space-between;
+            gap: 16px;
+            font-size: 1.15rem;
+            font-weight: 800;
+            border-top: 1px solid var(--border);
+        }
+
+        .pay-button {
+            width: 100%;
+            margin-top: 18px;
+            border: none;
+            border-radius: 16px;
+            padding: 18px 20px;
+            font-size: 1.05rem;
+            font-weight: 800;
+            color: #fff;
+            background: var(--disabled);
+            cursor: not-allowed;
+            opacity: 0.9;
+            transition: transform 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .pay-button:disabled {
+            background: var(--disabled);
+            color: #fff;
+            cursor: not-allowed;
+            box-shadow: none;
+        }
+
+        .pay-button:not(:disabled) {
+            background: var(--success);
+            cursor: pointer;
+            box-shadow: 0 12px 26px rgba(47, 143, 78, 0.24);
+        }
+
+        .pay-button:not(:disabled):hover {
+            background: var(--success-dark);
+            transform: translateY(-1px);
+        }
+
+        .summary-note {
+            margin: 14px 0 0;
+            color: var(--muted);
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        .back-link {
+            display: inline-flex;
+            margin-top: 18px;
+            color: var(--accent);
+            text-decoration: none;
+            font-weight: 700;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 920px) {
+            .checkout-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .summary-panel {
+                position: static;
+            }
+        }
+
+        @media (max-width: 680px) {
+            .page-shell {
+                padding: 24px 14px 40px;
+            }
+
+            .form-panel,
+            .summary-panel {
+                padding: 20px;
+            }
+
+            .field-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <main class="page-shell">
+        <section class="hero">
+            <span class="eyebrow">Checkout seguro</span>
+            <h1>Completa tus datos para continuar con tu compra</h1>
+            <p class="subtitle">Revisa la información de envío y prepara tu pedido antes de ir al pago. El botón solo se activará cuando todos los campos requeridos estén completos.</p>
+        </section>
+
+        <section class="checkout-grid" aria-label="Formulario de checkout">
+            <div class="panel form-panel">
+                <h2 class="section-title">Datos de contacto y envío</h2>
+                <form id="checkout-form" novalidate>
+                    <div class="field-grid">
+                        <div class="field full">
+                            <label for="nombre">Nombre Completo</label>
+                            <input type="text" id="nombre" name="nombre" placeholder="Tu nombre y apellido" required>
+                        </div>
+                        <div class="field">
+                            <label for="correo">Correo</label>
+                            <input type="email" id="correo" name="correo" placeholder="tucorreo@ejemplo.com" required>
+                        </div>
+                        <div class="field">
+                            <label for="telefono">Teléfono</label>
+                            <input type="tel" id="telefono" name="telefono" placeholder="+56 9 1234 5678" required>
+                        </div>
+                        <div class="field full">
+                            <label for="direccion">Dirección</label>
+                            <input type="text" id="direccion" name="direccion" placeholder="Calle, número, comuna, ciudad" required>
+                        </div>
+                    </div>
+                </form>
+                <p class="helper">Tus datos se usarán para coordinar la entrega del pedido. No se enviará nada a Firebase en esta etapa.</p>
+            </div>
+
+            <aside class="panel summary-panel" aria-label="Resumen de compra">
+                <h2 class="section-title">Resumen de Compra</h2>
+                <div class="summary-card">
+                    <div class="summary-line">
+                        <span>Subtotal</span>
+                        <strong id="resumen-subtotal">$0</strong>
+                    </div>
+                    <div class="summary-line">
+                        <span>Envío</span>
+                        <strong>Por calcular</strong>
+                    </div>
+                    <div class="summary-line">
+                        <span>Productos</span>
+                        <strong id="resumen-productos">Revisa tu carrito</strong>
+                    </div>
+                    <div class="summary-total">
+                        <span>Total</span>
+                        <span id="resumen-total">$0</span>
+                    </div>
+                </div>
+                <button id="ir-a-pagar" class="pay-button" disabled>Ir a Pagar</button>
+                <p class="summary-note">El botón se habilita automáticamente cuando Nombre Completo, Correo, Teléfono y Dirección están completos.</p>
+                <a class="back-link" href="index.html">Volver a la tienda</a>
+            </aside>
+        </section>
+    </main>
+
+    <script>
+        const form = document.getElementById('checkout-form');
+        const payButton = document.getElementById('ir-a-pagar');
+        const requiredFields = form.querySelectorAll('input[required]');
+        const subtotalElement = document.getElementById('resumen-subtotal');
+        const totalElement = document.getElementById('resumen-total');
+        const productosElement = document.getElementById('resumen-productos');
+        const currencyFormatter = new Intl.NumberFormat('es-CL', {
+            style: 'currency',
+            currency: 'CLP'
+        });
+
+        const carrito = JSON.parse(localStorage.getItem('carrito')) || JSON.parse(localStorage.getItem('carritoART')) || [];
+
+        if (carrito.length === 0) {
+            window.location.href = 'index.html';
+        }
+
+        const totalCantidad = carrito.reduce((sum, item) => sum + (Number(item.cantidad) || 0), 0);
+        const totalPrecio = carrito.reduce(
+            (sum, item) => sum + (Number(item.precio) || 0) * (Number(item.cantidad) || 0),
+            0
+        );
+
+        if (subtotalElement) subtotalElement.textContent = currencyFormatter.format(totalPrecio);
+        if (totalElement) totalElement.textContent = currencyFormatter.format(totalPrecio);
+        if (productosElement) productosElement.textContent = `${totalCantidad} artículo${totalCantidad === 1 ? '' : 's'}`;
+
+        function togglePayButton() {
+            const allFilled = Array.from(requiredFields).every((field) => field.value.trim() !== '');
+            payButton.disabled = !allFilled;
+        }
+
+        requiredFields.forEach((field) => {
+            field.addEventListener('input', togglePayButton);
+        });
+
+        togglePayButton();
+    </script>
+</body>
+</html>

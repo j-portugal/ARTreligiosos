@@ -26,6 +26,7 @@ const btnAbrirCarrito = document.getElementById("btn-abrir-carrito");
 const carritoOverlay = document.getElementById("carrito-overlay");
 const carritoPanel = document.getElementById("carrito-panel");
 const btnCerrarCarrito = document.getElementById("btn-cerrar-carrito");
+const btnFinalizarCompra = document.querySelector(".btn-finalizar") || document.getElementById("btn-finalizar");
 const contadorCarrito = document.getElementById("contador-carrito");
 const carritoBody = document.getElementById("carrito-body");
 const carritoPrecioTotal = document.getElementById("carrito-precio-total");
@@ -51,6 +52,11 @@ function cerrarCarrito() {
 if (btnAbrirCarrito) btnAbrirCarrito.addEventListener("click", abrirCarrito);
 if (btnCerrarCarrito) btnCerrarCarrito.addEventListener("click", cerrarCarrito);
 if (carritoOverlay) carritoOverlay.addEventListener("click", cerrarCarrito);
+if (btnFinalizarCompra) {
+    btnFinalizarCompra.addEventListener("click", () => {
+        window.location.href = "checkout.html";
+    });
+}
 
 function renderizarTarjetas(listaDeProductos) {
     if (!contenedorProductos) return;
